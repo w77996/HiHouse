@@ -1,0 +1,40 @@
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td,select { margin:0; padding:0; } 
+body, button, input, select, textarea {font-size:.3rem;}
+h1, h2, h3, h4, h5, h6{ font-size:100%; } 
+address, cite, dfn, em, var { font-style:normal; } 
+code, kbd, pre, samp { font-family:couriernew, courier, monospace; } 
+small{ font-size:12px; } 
+ul, ol { list-style:none; } 
+sup { vertical-align:text-top; } 
+sub{ vertical-align:text-bottom; } 
+legend { color:#000; } 
+fieldset, img { border:0; } 
+button, input, select, textarea { font-size:100%; } 
+table { border-collapse:collapse; border-spacing:0;width:100%;}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, menu, nav, section { display: block; }
+input,input[type="search"],button,select,option,textarea,a{ outline:none; border:0; -webkit-appearance:none;border-radius: 0; background:none;-webkit-box-sizing:border-box;box-sizing:border-box;}
+
+a{
+  text-decoration: none;
+}
+html {
+  /**
+   * 此处设置成 20vw 是因为引入了 vant ui 导致，vant ui 将设计稿的宽度定义为 375px，
+   * 但是我们要求页面的最大宽度为 750px，因此强行放大两倍。
+   * 原转换规则为：rootValue = 37.5，对应的 font-size 为 10vw。
+   * 放大两倍后：rootValue = 75，对应的 font-size 为 20vw。
+   * 因此我们之后 wap 页面的设计稿也以 375px 的宽度为准。
+   */
+  font-size: 20VW;
+
+  /* 通过 Media Query 限制根元素 font-size 的最大最小值 */
+  @media screen and (max-width: 320px) {
+    font-size: 64PX;
+  }
+
+  @media screen and (min-width: 750px) {
+    font-size: 150PX;
+  }
+}

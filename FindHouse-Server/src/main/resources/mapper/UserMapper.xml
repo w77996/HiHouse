@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.w77996.seed.house.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.w77996.seed.house.model.bean.user.UserBean">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="head_image" jdbcType="VARCHAR" property="headImage"/>
+        <result column="sex" jdbcType="TINYINT" property="sex"/>
+        <result column="mp_open_id" jdbcType="VARCHAR" property="mpOpenId"/>
+        <result column="union_id" jdbcType="VARCHAR" property="unionId"/>
+        <result column="flag" jdbcType="TINYINT" property="flag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <select id="getUserByMpOpenId" resultType="com.w77996.seed.house.model.bean.user.UserBean">
+        select *
+        from t_user
+        where mp_open_id = #{openId}
+    </select>
+    <select id="getUserByUnionId" resultType="com.w77996.seed.house.model.bean.user.UserBean">
+        select *
+        from t_user
+        where union_id = #{unionId}
+    </select>
+    <select id="getUserByUserId" resultType="com.w77996.seed.house.model.bean.user.UserBean">
+        select *
+        from t_user
+        where id = #{id}
+    </select>
+    <select id="findByUserIdList" resultType="com.w77996.seed.house.model.bean.user.UserBean">
+        select * from t_user where id in
+        <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </select>
+</mapper>

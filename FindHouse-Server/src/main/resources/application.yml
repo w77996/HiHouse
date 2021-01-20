@@ -1,0 +1,7 @@
+server:
+  port: 8185
+spring:
+  profiles.:
+    active: prod
+  # 所有环境通用的配置，放在这里
+

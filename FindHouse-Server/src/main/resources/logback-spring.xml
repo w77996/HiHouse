@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="1800 seconds" debug="false">
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="APP_NAME" value="application"/>
+    <property name="LOG_PATH" value="logs"/>
+    <!--格式化输出：%d:表示日期  %X{tid} MDC  %thread:表示线程名     %-5level:级别从左显示5个字符宽度  %-3L %logger日志所在类 行号  %msg:日志消息    %n:是换行符-->
+    <!-- magenta:洋红 boldMagenta:粗红 cyan:青色 white:白色 magenta:洋红 -->
+    <!-- 有颜色的 -->
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd} %yellow(%d{HH:mm:ss.SSS})|%X{tid}|%green(%thread)|%highlight(%-5level)|%cyan(%logger:%-3L)|%highlight(%msg) %n"/>
+    <!-- 没有颜色的
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd} %d{HH:mm:ss.SSS}|%X{tid}|%thread|%-5level|%logger:%-3L|%msg%n"/> -->
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <!-- 对于quartz的线程不记录，更多用法参考 https://logback.qos.ch/manual/filters.html -->
+    </appender>
+
+    <!-- 日志记录器，日期滚动记录 -->
+    <appender name="application" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${LOG_PATH}/application.log</file>
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${APP_NAME}-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <!-- 日志文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <!-- 此日志文件只记录info级别的
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter> -->
+    </appender>
+
+    <!--异步输出-->
+    <appender name="async_log" class="ch.qos.logback.classic.AsyncAppender">
+        <!--行号为?的问题处理-->
+        <includeCallerData>true</includeCallerData>
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>512</queueSize>
+        <appender-ref ref="application"/>
+    </appender>
+
+    <logger name="org.apache" level="INFO"/>
+    <logger name="org.springframework.data.mybatis" level="DEBUG"/>
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator" level="INFO"/>
+    <logger name="io.netty" level="INFO"/>
+    <logger name="io.netty.util.internal" level="INFO"/>
+    <logger name="jdbc.connection" level="ERROR"/>
+    <logger name="jdbc.resultset" level="ERROR"/>
+    <logger name="jdbc.resultsettable" level="INFO"/>
+    <logger name="jdbc.audit" level="ERROR"/>
+    <logger name="jdbc.sqltiming" level="ERROR"/>
+    <logger name="jdbc.sqlonly" level="INFO"/>
+    <logger name="org.redisson" level="INFO"/>
+    <logger name="org.apache.dubbo" level="ERROR"/>
+
+    <root level="INFO">
+        <appender-ref ref="async_log"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

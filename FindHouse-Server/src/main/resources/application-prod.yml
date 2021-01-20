@@ -1,0 +1,136 @@
+# 开发环境配置
+# 数据源配置，请修改为你项目的实际配置
+spring:
+  application:
+    name: find-house-server
+  datasource:
+    url: jdbc:mysql://localhost:3306/house?useUnicode=true&characterEncoding=UTF-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true&useLocalSessionState=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    username: 数据库用户名
+    password: 数据库密码
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 8
+      min-idle: 1
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runsMillis: 60000
+      min-evictable-idle-timeMillis: 300000
+      validation-query: select 'x' FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      use-global-data-source-stat: true
+  data:
+    mongodb:
+      port: 27017
+      host: localhost
+      username: admin
+      password: admin
+      database: admin
+      authentication-database: admin
+  aop:
+    auto: true
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    # 404 交给异常处理器处理
+    password: 123456
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+  jackson:
+    timeZone: GMT+8
+#  boot:
+#    admin:
+#      client:
+#        url: http://localhost:8186
+#management:
+#  endpoint:
+#    health:
+#      show-details: always
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.w77996.seed.house.model
+  configuration:
+    # 开启驼峰功能
+    map-underscore-to-camel-case: true
+  global-config:
+    # 驼峰下划线转换
+    db-column-underline: true
+    id-type: 1
+    # 数据库大写下划线转换
+    capital-mode: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+#  type-handlers-package: com.w77996.top.handler.mybaits
+
+mapper:
+  mappers: com.w77996.seed.house.dao
+  identity: mysql
+  logging:
+    level:
+      com:
+        w77996:
+          seed:
+            house:
+              dao: debug
+##jwt配置
+audience:
+  # 代表这个JWT的接收对象,存入audience
+  clientId: 098f6bcd4621d373cade4e832627b4f612
+  # 密钥, 经过Base64加密, 可自行替换
+  base64Secret: MDk4Z5jZiY2Q0NjIxZDM3M2NhZGU0ZTgzMjYyN2I0ZjY=
+  # JWT的签发主体，存入issuer
+  name: restapiuser
+  # 过期时间，时间戳
+  expiresSecond: 172800
+
+snowflake:
+  workId: 1
+  datacenterId: 1
+
+logging:
+  level:
+    org.springframework.web: INFO
+    com.github.binarywang.demo.wx.mp: DEBUG
+    me.chanjar.weixin: DEBUG
+wx:
+  mp:
+    configs:
+      - appId: 公众号appId
+        secret: 公众号密钥
+        token: tokon
+        aesKey: aesKey
+  pay:
+    appId: 微信支付appId
+    mchId: 微信支付商户ID
+    mchKey: 微信支付商户key
+    keyPath: classpath:cert/apiclient_cert.p12
+    tradeType: JSAPI  #JSAPI--公众号支付    NATIVE--原生扫码支付   APP--app支付
+
+xxl:
+  job:
+    accessToken:
+    executor:
+      appname: house
+      address:
+      ip:
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: -1
+      port: 9999
+    admin:
+      addresses: http://localhost:18180/xxl-job-admin

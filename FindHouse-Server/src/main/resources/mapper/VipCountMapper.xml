@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.w77996.seed.house.dao.VipCountMapper">
+  <resultMap id="BaseResultMap" type="com.w77996.seed.house.model.bean.user.VipCountBean">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+    <update id="reduceCount">
+        update t_vip_count set count = count -1,last_push_time=now(),update_time=now()  where user_id = #{userId} and count > 0
+    </update>
+    <select id="findAllExpire" resultType="com.w77996.seed.house.model.bean.user.VipCountBean">
+        select * from t_vip_count where count = 0 and status =1
+    </select>
+</mapper>

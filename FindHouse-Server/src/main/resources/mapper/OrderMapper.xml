@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.w77996.seed.house.dao.OrderMapper">
+    <resultMap id="BaseResultMap" type="com.w77996.seed.house.model.bean.OrderBean">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="order_no" jdbcType="BIGINT" property="orderNo"/>
+        <result column="order_type" jdbcType="SMALLINT" property="orderType"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="goods_count" jdbcType="INTEGER" property="goodsCount"/>
+        <result column="total_fee" jdbcType="INTEGER" property="totalFee"/>
+        <result column="status" jdbcType="SMALLINT" property="status"/>
+        <result column="os" jdbcType="SMALLINT" property="os"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="pay_type" jdbcType="SMALLINT" property="payType"/>
+        <result column="pay_time" jdbcType="TIMESTAMP" property="payTime"/>
+        <result column="notify_time" jdbcType="TIMESTAMP" property="notifyTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <select id="selectByOrderNo" parameterType="map" resultType="com.w77996.seed.house.model.bean.OrderBean">
+        select *
+        from t_order
+        where order_no = #{orderNo}
+    </select>
+</mapper>

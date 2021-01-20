@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.w77996.seed.house.dao.VipMapper">
+    <resultMap id="BaseResultMap" type="com.w77996.seed.house.model.bean.user.VipBean">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="expire_buy_time" jdbcType="TIMESTAMP" property="expireBuyTime"/>
+        <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <select id="selectByUserId" parameterType="map" resultType="com.w77996.seed.house.model.bean.user.VipBean">
+        select *
+        from t_vip
+        where user_id = #{userId}
+    </select>
+    <select id="findAllExpire" resultType="com.w77996.seed.house.model.bean.user.VipBean">
+        select *
+        from t_vip
+        where status = 1
+          and expire_time &lt; now()
+    </select>
+</mapper>
